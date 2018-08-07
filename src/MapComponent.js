@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  withScriptjs, withGoogleMap, GoogleMap, Marker, SearchBox
- } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 
 class MapComponent extends Component {
@@ -17,7 +15,8 @@ class MapComponent extends Component {
             <Marker
               key={'marker_' + i}
               position={marker.position}
-              title={marker.name}
+              title={marker.address}
+              onClick={this.props.onMarkerClick}
             />
           )
         })}
