@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 
 class MapComponent extends Component {
   render() {
     const defaultCenter = { lat: 48.866667, lng: 2.333333 };
     return (
-      <GoogleMap
-        defaultZoom={10}
-        defaultCenter={defaultCenter}
+      <Map
+        google={this.props.google}
+        initialCenter={defaultCenter}
+        zoom={12}
       >
         {this.props.markers.map((marker, i) => {
           return (
             <Marker
-              key={'marker_' + i}
+              key={'marker_' + marker.id}
               position={marker.position}
-              title={marker.address}
-              onClick={this.props.onMarkerClick}
+              name={marker.address}
+              onClick={this.props.addStore(marker.id)}
             />
           )
         })}
-      </GoogleMap>
-    )
+      </Map>
+    );
   }
 }
 
-export default withScriptjs(withGoogleMap(MapComponent));
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyDe-EdG28Uuz_qISeppFQcALKjI4M4xSEg"
+})(MapComponent)
