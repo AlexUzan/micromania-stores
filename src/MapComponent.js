@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import config from './data/config.json';
 
 
 class MapComponent extends Component {
@@ -16,7 +17,7 @@ class MapComponent extends Component {
             <Marker
               key={'marker_' + marker.id}
               position={marker.position}
-              name={marker.address}
+              title={marker.address}
               onClick={this.props.addStore(marker.id)}
             />
           )
@@ -27,5 +28,5 @@ class MapComponent extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDe-EdG28Uuz_qISeppFQcALKjI4M4xSEg"
+  apiKey: config.apiKey
 })(MapComponent)

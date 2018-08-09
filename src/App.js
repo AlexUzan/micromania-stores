@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
+import FileSaver from 'file-saver';
+
 import MapComponent from './MapComponent.js';
 import StoreListComponent from './StoreListComponent.js';
-import { Grid, Row, Col } from 'react-bootstrap';
 import stores from './data/stores_unicode.json';
 import './App.css';
-
-const API_URL = "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDe-EdG28Uuz_qISeppFQcALKjI4M4xSEg";
 
 var markers = [];
 var count = 0;
@@ -28,6 +28,7 @@ class App extends Component {
     };
     this.addStore = this.addStore.bind(this);
     this.removeStore = this.removeStore.bind(this);
+    this.download = this.download.bind(this);
   }
 
   addStore(id) {
@@ -49,6 +50,16 @@ class App extends Component {
           return {selectedStores: prevState.selectedStores.filter(store => store.id !== id)};
         })
     }
+  }
+
+  download() {
+    var file_str = "Address;Latitude;Longitude";
+    for (let store of this.state.selectedStores) {
+      file_str += "\n" + store.address + ";" + store.position.lat + ";" + store.position.lng;
+    }
+
+    var blob = new Blob([file_str], {type: "text/csv;charset=utf-8"});
+    FileSaver.saveAs(blob, "micromania_stores.csv");
   }
 
   render() {
@@ -89,6 +100,7 @@ class App extends Component {
               <StoreListComponent
                 selectedStores={this.state.selectedStores}
                 removeStore={this.removeStore}
+                download={this.download}
               />
             </div>
           </Col>
